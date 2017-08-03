@@ -1,0 +1,11 @@
+{
+  "name": "DirtyMining",
+  "version": "0.0.1",
+  "title": "DirtyMining",
+  "author": "Reika",
+  "contact": "",
+  "homepage": "",
+  "factorio_version" : "0.15",
+  "description": "Allows for you to mark ore fields for more in-depth extraction, at the cost of requiring additional processing.",
+  "dependencies": ["base >= 0.15.0"]
+}
