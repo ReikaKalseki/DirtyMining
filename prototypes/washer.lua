@@ -1,4 +1,4 @@
-local speed = 50
+local speed = 50*2
 
 data:extend({
   {

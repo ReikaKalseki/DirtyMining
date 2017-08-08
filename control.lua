@@ -24,6 +24,21 @@ local function getDirtyOre(ore)
 	return "dirty-ore-" .. ore.name
 end
 
+local function clearDirtyMarkers(surface, area)
+	for _,entity in pairs(surface.find_entities_filtered({name="dirty-ore-overlay", area = area})) do
+		local ores = surface.find_entities_filtered({type = "resource", position=entity.position})
+		local flag = false
+		for _,ore in pairs(ores) do
+			if isDirtyOre(ore) and ore.amount > 0 then
+				flag = true
+			end
+		end
+		if not flag then
+			entity.destroy()
+		end
+	end
+end
+
 local function markOres(surface, area, entities, mark)
 	for _,entity in pairs(entities) do
 		if entity.type == "resource" and game.entity_prototypes[entity.name].resource_category == "basic-solid" and entity.name ~= "stone" then
@@ -44,20 +59,15 @@ local function markOres(surface, area, entities, mark)
 	end
 	
 	if not mark then
-		for _,entity in pairs(surface.find_entities_filtered({name="dirty-ore-overlay", area = {{area.left_top.x-2, area.left_top.y-2}, {area.right_bottom.x+2, area.right_bottom.y+2}}})) do
-			local ores = surface.find_entities_filtered({type = "resource", position=entity.position})
-			local flag = false
-			for _,ore in pairs(ores) do
-				if isDirtyOre(ore) then
-					flag = true
-				end
-			end
-			if not flag then
-				entity.destroy()
-			end
-		end
+		clearDirtyMarkers(surface, {{area.left_top.x-2, area.left_top.y-2}, {area.right_bottom.x+2, area.right_bottom.y+2}})
 	end
 end
+
+script.on_event(defines.events.on_resource_depleted, function(event)
+	local surface = event.entity.surface
+	local area = {{event.entity.position.x-5, event.entity.position.y-5}, {event.entity.position.x+5, event.entity.position.y+5}}
+	clearDirtyMarkers(surface, area)
+end)
 
 script.on_event(defines.events.on_player_alt_selected_area, function(event)
 	local player = game.players[event.player_index]

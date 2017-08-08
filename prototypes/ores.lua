@@ -1,6 +1,6 @@
 require "config"
 
-local multiplyConstant = 20
+local multiplyConstant = 1--20
 
 local ores = {}
 
@@ -64,8 +64,8 @@ data:extend({
 		type = "recipe",
 		name = "twig-to-wood",
 		enabled = true,
-		ingredients = {{"twig", 10}},
-		result = "wood",
+		ingredients = {{"twig", 20}},
+		result = "raw-wood",
 		result_count = 1
 	  },
 })
@@ -110,6 +110,8 @@ local function createDirtyOreItem(name)
 	item.icons = {{icon=base.icon}, {icon="__DirtyMining__/graphics/icons/dirty_overlay.png"}}
 	item.subgroup = "raw-material"
 	item.localised_name = {"dirty-ore.prefix", {"item-name." .. name}}
+	item.fuel_value = nil
+	item.fuel_category = nil
 	
 	local f = 1+multiplyConstant/5
 	local out = {{name=name, amount=1*multiplyConstant}, {name="pebbles", amount=1, probability = math.min(1, 0.2*Config.trashYield*f)}, {name="stone", amount=1, probability = math.min(1, 0.005*Config.trashYield*f)}, {name="twig", amount=1, probability = math.min(1, 0.02*Config.trashYield*f)}}
@@ -144,7 +146,7 @@ end
 
 for name,ore in pairs(data.raw.resource) do
 	if name ~= "stone" then
-		log("Checking ore " .. name .. " ; cat = " .. (ore.category and ore.category or "nil"))
+		--log("Checking ore " .. name .. " ; cat = " .. (ore.category and ore.category or "nil"))
 		if ore.category == nil or ore.category == "basic-solid" then
 			local new = createDirtyOre(ore)
 			if new.minable.results then
