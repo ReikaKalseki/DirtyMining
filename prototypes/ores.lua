@@ -88,8 +88,6 @@ local function createDirtyOre(base)
 	--ore.localised_name = {"entity-name." .. base.name} --same visual name
 	ore.minable.mining_time = ore.minable.mining_time/Config.dirtyOreFactor
 	
-	table.insert(ores, ore)
-	
 	return ore
 end
 
@@ -151,10 +149,12 @@ for name,ore in pairs(data.raw.resource) do
 			local new = createDirtyOre(ore)
 			if new.minable.results then
 				for i,drop in ipairs(new.minable.results) do
-					new.minable.results[i] = createDirtyOreItem(drop.name)
+					new.minable.results[i] = {name=createDirtyOreItem(drop.name), amount = drop.amount, amount_min = drop.amount_min, amount_max = drop.amount_max, probability = drop.probability}
 				end
+				table.insert(ores, ore) --only insert if has a minable of some form
 			elseif new.minable.result then
 				new.minable.result = createDirtyOreItem(ore.minable.result).name
+				table.insert(ores, ore)
 			end
 		end
 	end
