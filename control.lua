@@ -70,14 +70,18 @@ script.on_event(defines.events.on_resource_depleted, function(event)
 end)
 
 script.on_event(defines.events.on_player_alt_selected_area, function(event)
-	local player = game.players[event.player_index]
-	local surface = player.surface
-	markOres(surface, event.area, event.entities, false)
+	if event.item == "dirty-planner" then
+		local player = game.players[event.player_index]
+		local surface = player.surface
+		markOres(surface, event.area, event.entities, false)
+	end
 end)
 
 script.on_event(defines.events.on_player_selected_area, function(event)
-	local player = game.players[event.player_index]
-	local surface = player.surface
-	markOres(surface, event.area, event.entities, true)
+	if event.item == "dirty-planner" then
+		local player = game.players[event.player_index]
+		local surface = player.surface
+		markOres(surface, event.area, event.entities, true)
+	end
 end)
 --]]
