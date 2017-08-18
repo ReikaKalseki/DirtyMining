@@ -76,14 +76,29 @@ for name,assembler in pairs(data.raw["assembling-machine"]) do
 	end
 end
 
+local function getOreBaseIcon(base)
+	if base.icon and string.len(base.icon) > 0 then
+		return base.icon
+	end
+	if base.icons then
+		for _,ico in pairs(base.icons) do
+			if ico and ico.icon and string.len(ico.icon) > 0 then
+				return ico.icon
+			end
+		end
+	end
+	return "__DirtyMining__/graphics/icons/mod-no-tex.png"
+end
+
 local function createDirtyOre(base)
-	--log("Creating dirty ore for " .. base.name)
+	log("Creating dirty ore for " .. base.name)
 	
 	local dirtyname = "dirty-ore-" .. base.name
 	
 	local ore = table.deepcopy(base)
 	ore.name = dirtyname
-	ore.icons = {{icon=base.icon}, {icon="__DirtyMining__/graphics/icons/dirty_overlay.png"}}
+	ore.icon = nil
+	ore.icons = {{icon=getOreBaseIcon(base)}, {icon="__DirtyMining__/graphics/icons/dirty_overlay.png"}}
 	ore.localised_name = {"dirty-ore.suffix", {"entity-name." .. base.name}}
 	--ore.localised_name = {"entity-name." .. base.name} --same visual name
 	ore.minable.mining_time = ore.minable.mining_time/Config.dirtyOreFactor
@@ -102,11 +117,11 @@ local function createDirtyOreItem(name)
 		error(serpent.block("Could not create dirty ore item " .. dirtyname .. ", parent " .. name .. " does not exist."))
 	end
 	
-	--log("Creating dirty ore item for " .. name)
+	log("Creating dirty ore item for " .. name)
 	
 	local item = table.deepcopy(base)
 	item.name = dirtyname
-	item.icons = {{icon=base.icon}, {icon="__DirtyMining__/graphics/icons/dirty_overlay.png"}}
+	item.icons = {{icon=getOreBaseIcon(base)}, {icon="__DirtyMining__/graphics/icons/dirty_overlay.png"}}
 	item.subgroup = "raw-material"
 	item.localised_name = {"dirty-ore.prefix", {"item-name." .. name}}
 	item.fuel_value = nil
@@ -127,7 +142,7 @@ local function createDirtyOreItem(name)
 		name = "ore-cleaning-" .. name,
 		enabled = "true",
 		energy_required = 2.5*multiplyConstant,
-		icon = base.icon,
+		icon = getOreBaseIcon(base),
 		subgroup = "raw-material",
 		category = "ore-cleaning",
 		localised_name = {"dirty-ore.recipe-name", {"item-name." .. base.name}},
@@ -136,7 +151,8 @@ local function createDirtyOreItem(name)
 		  {dirtyname, 1*multiplyConstant},
 		  {type="fluid", name = "water", amount = 10*multiplyConstant},
 		},
-		results = out
+		results = out,
+		allow_decomposition = false,
 	  }
 	})
 	
@@ -150,7 +166,7 @@ for name,ore in pairs(data.raw.resource) do
 			local new = createDirtyOre(ore)
 			if new.minable.results then
 				for i,drop in ipairs(new.minable.results) do
-					new.minable.results[i] = {name=createDirtyOreItem(drop.name), amount = drop.amount, amount_min = drop.amount_min, amount_max = drop.amount_max, probability = drop.probability}
+					new.minable.results[i] = {name=createDirtyOreItem(drop.name).name, amount = drop.amount, amount_min = drop.amount_min, amount_max = drop.amount_max, probability = drop.probability}
 				end
 				table.insert(ores, new) --only insert if has a minable of some form
 				log("Adding ore " .. ore.name .. " > " .. new.name)
