@@ -58,7 +58,8 @@ data:extend({
 		enabled = true,
 		ingredients = {{"pebbles", 20}},
 		result = "stone",
-		result_count = 1
+		result_count = 1,
+		allow_decomposition = false,
 	  },
 	  {
 		type = "recipe",
@@ -66,7 +67,8 @@ data:extend({
 		enabled = true,
 		ingredients = {{"twig", 20}},
 		result = "raw-wood",
-		result_count = 1
+		result_count = 1,
+		allow_decomposition = false,
 	  },
 })
 
