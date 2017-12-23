@@ -5,6 +5,7 @@ data:extend({
     type = "assembling-machine",
     name = "ore-washer",
     icon = "__DirtyMining__/graphics/icons/ore-washer.png",
+	icon_size = 32,
     flags = {"placeable-neutral", "placeable-player", "player-creation"},
     minable = {hardness = 0.2, mining_time = 0.5, result = "ore-washer"},
     max_health = 350,
@@ -121,6 +122,7 @@ data:extend({
     type = "item",
     name = "ore-washer",
     icon = "__DirtyMining__/graphics/icons/ore-washer.png",
+	icon_size = 32,
     flags = { "goes-to-quickbar" },
     subgroup = "production-machine",
     order = "f[ore-washer]",
@@ -134,6 +136,7 @@ data:extend({
     type = "recipe",
     name = "ore-washer",
     icon = "__DirtyMining__/graphics/icons/ore-washer.png",
+	icon_size = 32,
     energy_required = 2,
     enabled = "false",
     ingredients =

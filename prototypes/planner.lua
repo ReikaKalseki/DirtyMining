@@ -4,6 +4,7 @@ data:extend({
     type = "selection-tool",
     name = "dirty-planner",
     icon = "__DirtyMining__/graphics/icons/planner.png",
+    icon_size = 32,
     stack_size = 1,
     subgroup = "tool",
     order = "c[automated-construction]-d[dirty-planner]",
