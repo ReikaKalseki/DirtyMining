@@ -131,6 +131,8 @@ local function createDirtyOreItem(name)
 	item.localised_name = {"dirty-ore.prefix", {"item-name." .. name}}
 	item.fuel_value = nil
 	item.fuel_category = nil
+	item.fuel_acceleration_multiplier = nil
+	item.fuel_top_speed_multiplier = nil
 	
 	local f = 1+multiplyConstant/5
 	local out = {{name=name, amount=1*multiplyConstant}, {name="pebbles", amount=1, probability = math.min(1, 0.2*Config.trashYield*f)}, {name="stone", amount=1, probability = math.min(1, 0.005*Config.trashYield*f)}, {name="twig", amount=1, probability = math.min(1, 0.02*Config.trashYield*f)}}
@@ -138,14 +140,16 @@ local function createDirtyOreItem(name)
 		table.insert(out, {name = "sand", amount = 1, probability = math.min(1, 0.05*Config.trashYield*f)})
 	end
 	
+	local rec = "ore-cleaning-" .. name
+	
 	data:extend(
 	{
 	  item,
 
 	  {
 		type = "recipe",
-		name = "ore-cleaning-" .. name,
-		enabled = "true",
+		name = rec,
+		enabled = "false",
 		energy_required = 2.5*multiplyConstant,
 		icon = getOreBaseIcon(base),
 		icon_size = 32,
@@ -161,6 +165,8 @@ local function createDirtyOreItem(name)
 		allow_decomposition = false,
 	  }
 	})
+	
+	table.insert(data.raw.technology["dirty-mining"].effects, {type = "unlock-recipe", recipe = rec})
 	
 	return item
 end
