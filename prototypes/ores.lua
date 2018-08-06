@@ -133,6 +133,8 @@ local function createDirtyOreItem(name)
 	item.fuel_category = nil
 	item.fuel_acceleration_multiplier = nil
 	item.fuel_top_speed_multiplier = nil
+	item.fuel_emissions_multiplier = nil
+	item.fuel_glow_color = nil
 	
 	local f = 1+multiplyConstant/5
 	local out = {{name=name, amount=1*multiplyConstant}, {name="pebbles", amount=1, probability = math.min(1, 0.2*Config.trashYield*f)}, {name="stone", amount=1, probability = math.min(1, 0.005*Config.trashYield*f)}, {name="twig", amount=1, probability = math.min(1, 0.02*Config.trashYield*f)}}
