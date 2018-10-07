@@ -137,13 +137,25 @@ data:extend({
     name = "ore-washer",
     icon = "__DirtyMining__/graphics/icons/ore-washer.png",
 	icon_size = 32,
-    energy_required = 2,
-    enabled = "false",
-    ingredients =
-    {
-      {"assembling-machine-2", 1},
-      {"electric-engine-unit", 4},
-    },
-    result = "ore-washer"
+	normal = {
+		energy_required = 2,
+		enabled = "false",
+		ingredients =
+		{
+		  {"assembling-machine-2", 1},
+		  {"electric-engine-unit", 4},
+		},
+		result = "ore-washer"
+	},
+	expensive = {
+		energy_required = 5,
+		enabled = "false",
+		ingredients =
+		{
+		  {"assembling-machine-2", 1},
+		  {"electric-engine-unit", 8},
+		},
+		result = "ore-washer"
+	}
   },
 })

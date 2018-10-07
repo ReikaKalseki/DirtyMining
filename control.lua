@@ -59,22 +59,26 @@ local function clearDirtyMarkers(surface, area)
 	end
 end
 
-local function markOres(surface, area, entities, mark)
+local function markOres(player, surface, area, entities, mark)
 	for _,entity in pairs(entities) do
-		if entity.type == "resource" and game.entity_prototypes[entity.name].resource_category == "basic-solid" and entity.name ~= "stone" then
-			if isDirtyOre(entity) then
-				if not mark then
-					convertEntity(entity, getCleanOre(entity), false)
+		if entity.valid then
+			if entity.type == "resource" and game.entity_prototypes[entity.name].resource_category == "basic-solid" and entity.name ~= "stone" then
+				if isDirtyOre(entity) then
+					if not mark then
+						convertEntity(entity, getCleanOre(entity), false)
+					end
+				else
+					if mark then
+						convertEntity(entity, getDirtyOre(entity), true)
+					end
 				end
 			else
-				if mark then
-					convertEntity(entity, getDirtyOre(entity), true)
+				if (not mark) and entity.name == "dirty-ore-overlay" then
+					--entity.destroy()
 				end
 			end
 		else
-			if (not mark) and entity.name == "dirty-ore-overlay" then
-				--entity.destroy()
-			end
+			player.print("Found an invalid entity!")
 		end
 	end
 	
@@ -186,7 +190,7 @@ script.on_event(defines.events.on_player_alt_selected_area, function(event)
 	if event.item == "dirty-planner" then
 		local player = game.players[event.player_index]
 		local surface = player.surface
-		markOres(surface, event.area, event.entities, false)
+		markOres(player, surface, event.area, event.entities, false)
 	end
 end)
 
@@ -194,7 +198,7 @@ script.on_event(defines.events.on_player_selected_area, function(event)
 	if event.item == "dirty-planner" then
 		local player = game.players[event.player_index]
 		local surface = player.surface
-		markOres(surface, event.area, event.entities, true)
+		markOres(player, surface, event.area, event.entities, true)
 	end
 end)
 
