@@ -1,4 +1,4 @@
-local speed = 50*2
+require "config"
 
 data:extend({
   {
@@ -45,7 +45,7 @@ data:extend({
           frame_count = 1,
           line_length = 1,
           shift = util.by_pixel(0, 4),
-		  animation_speed = 1/speed,
+		  animation_speed = 1/Config.washerSpeed,
 		  scale = 4/3,
           hr_version = {
             filename = "__DirtyMining__/graphics/entity/ore-washer/hr-ore-washer.png",
@@ -56,7 +56,7 @@ data:extend({
             line_length = 1,
             shift = util.by_pixel(0, 4),
             scale = 0.5*4/3,
-			animation_speed = 1/speed,
+			animation_speed = 1/Config.washerSpeed,
           }
         },
         {
@@ -68,7 +68,7 @@ data:extend({
           line_length = 1,
           draw_as_shadow = true,
           shift = util.by_pixel(12, 5),
-		  animation_speed = 1/speed,
+		  animation_speed = 1/Config.washerSpeed,
 		  scale = 4/3,
           hr_version = {
             filename = "__DirtyMining__/graphics/entity/ore-washer/hr-ore-washer-shadow.png",
@@ -80,7 +80,7 @@ data:extend({
             draw_as_shadow = true,
             shift = util.by_pixel(12, 4.75),
             scale = 0.5*4/3,
-			animation_speed = 1/speed,
+			animation_speed = 1/Config.washerSpeed,
           }
         },
       },
@@ -100,7 +100,7 @@ data:extend({
       apparent_volume = 1.5,
     },
     crafting_categories = {"ore-cleaning"},
-    crafting_speed = speed,
+    crafting_speed = Config.washerSpeed,
     energy_source =
     {
       type = "electric",
@@ -142,8 +142,7 @@ data:extend({
     ingredients =
     {
       {"assembling-machine-2", 1},
-	  {"steel-plate", 4},
-      {"pipe", 20}
+      {"electric-engine-unit", 4},
     },
     result = "ore-washer"
   },

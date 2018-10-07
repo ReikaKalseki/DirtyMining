@@ -118,6 +118,9 @@ local function createDirtyOreItem(name)
 	end
 	local dirtyname = "dirty-ore-" .. name
 	local base = data.raw.item[name]
+	if not base then
+		base = data.raw.tool[name]
+	end
 	if base == nil then
 		error(serpent.block("Could not create dirty ore item " .. dirtyname .. ", parent " .. name .. " does not exist."))
 	end
@@ -143,6 +146,7 @@ local function createDirtyOreItem(name)
 	end
 	
 	local rec = "ore-cleaning-" .. name
+	local time = 2.5*multiplyConstant
 	
 	data:extend(
 	{
@@ -152,7 +156,7 @@ local function createDirtyOreItem(name)
 		type = "recipe",
 		name = rec,
 		enabled = "false",
-		energy_required = 2.5*multiplyConstant,
+		energy_required = time,
 		icon = getOreBaseIcon(base),
 		icon_size = 32,
 		subgroup = "raw-material",
@@ -161,7 +165,7 @@ local function createDirtyOreItem(name)
 		ingredients =
 		{
 		  {dirtyname, 1*multiplyConstant},
-		  {type="fluid", name = "water", amount = 10*multiplyConstant},
+		  {type="fluid", name = "water", amount = multiplyConstant*Config.waterPerSecond/Config.washerSpeed*time},
 		},
 		results = out,
 		allow_decomposition = false,
