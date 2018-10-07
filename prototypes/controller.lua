@@ -36,10 +36,10 @@ local function createCircuitConnections()
 	return ret
 end
 
-local function create(name, signals)
-  return {
+data:extend({
+  {
     type = "constant-combinator",
-    name = "washer-" .. name,
+    name = "washer-control",
     icon = "__base__/graphics/icons/constant-combinator.png",
 	icon_size = 32,
     flags = {"placeable-neutral", "player-creation", "not-on-map", "placeable-off-grid", "not-blueprintable", "not-deconstructable"},
@@ -53,7 +53,7 @@ local function create(name, signals)
     --collision_box = {{-0.35, -0.35}, {0.35, 0.35}},
     selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
 
-    item_slot_count = signals,
+    item_slot_count = 0,
 
     sprites = {
       north = createCircuitSprite(),
@@ -92,8 +92,14 @@ local function create(name, signals)
 
     circuit_wire_max_distance = 7.5
   }
-end
-
-data:extend({
-	create("control", 0), create("output", 1)
 })
+
+--[[
+local filter = table.deepcopy(data.raw["decider-combinator"]["decider-combinator"])
+filter.name = "dirty-ore-signal-filter"
+filter.minable.result = filter.name
+local item = table.deepcopy(data.raw.item["decider-combinator"])
+item.name = filter.name
+item.place_result = item.name
+data:extend({filter, item})
+--]]

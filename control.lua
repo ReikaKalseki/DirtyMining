@@ -7,6 +7,9 @@ local function initGlobal(force)
 	if force or global.ores.washers == nil then
 		global.ores.washers = {}
 	end
+	if force or global.ores.filters == nil then
+		global.ores.filters = {}
+	end
 end
 
 script.on_init(function()
@@ -85,9 +88,9 @@ local function onEntityCreated(event)
 	if entity.name == "ore-washer" then
 		local conn = entity.surface.create_entity{name = "washer-control", position = {entity.position.x-1, entity.position.y+1}, force = entity.force}
 		conn.operable = false
-		local conn2 = entity.surface.create_entity{name = "washer-output", position = {entity.position.x+1, entity.position.y+1}, force = entity.force}
-		conn2.operable = false
-		global.ores.washers[entity.unit_number] = {entity = entity, connection = conn, output = conn2}
+		global.ores.washers[entity.unit_number] = {entity = entity, connection = conn}
+	elseif entity.name == "dirty-ore-signal-filter" then
+		global.ores.filters[entity.unit_number] = {entity = entity, type = "input"}
 	end
 end
 
@@ -99,6 +102,8 @@ local function onEntityRemoved(event)
 			entry.connection.destroy()
 			global.ores.washers[entity.unit_number] = nil
 		end
+	elseif entity.name == "dirty-ore-signal-filter" then
+		global.ores.filters[entity.unit_number] = nil
 	end
 end
 
@@ -123,29 +128,52 @@ local function onTick(event)
 										--game.print(recipe ~= nil)
 										if recipe then
 											local items = entry.entity.set_recipe(recipe)
-											local params = {parameters = {{index = 1, signal = {type = "item", name = base}, count = 1}}}
-											entry.output.get_or_create_control_behavior().parameters = params
 											assert(not items or #items == 0)
 											break
 										end
 									end
 								end
 							end
-						end--[[
-						if event.tick%(60*30) == 0 or entry.network == nil then
-							for _,link in pairs(entry.connection.circuit_connection_definitions) do
-								if link.target_entity.type == "transport-belt" then
-								
-								end
-							end
-						end--]]
+						end
 					end
 				end
 			else
 				global.ores.washers[unit] = nil
 			end
 		end
-	end
+	end--[[
+	if event.tick%30 == 0 then
+		for unit,entry in pairs(global.ores.filters) do
+			if entry.entity.valid then
+				local network = entry.connection.get_circuit_network(defines.wire_type.red)
+				if not network then network = entry.connection.get_circuit_network(defines.wire_type.green, defines.circuit_connector_id.combinator_input) end
+				if network then
+					local signals = network.signals
+					if signals and #signals > 0 then
+						for _,signal in pairs(signals) do
+							if signal.count > 0 and signal.signal.type == "item" then
+								local item = signal.signal.name
+								if string.find(item, "dirty-ore", 1, true) then
+									local base = string.sub(item, string.len("dirty-ore")+2)
+									local name = "ore-cleaning-" .. base
+									--game.print(name)
+									local recipe = entry.entity.force.recipes[name]
+									--game.print(recipe ~= nil)
+									if recipe then
+										local items = entry.entity.set_recipe(recipe)
+										assert(not items or #items == 0)
+										break
+									end
+								end
+							end
+						end
+					end
+				end
+			else
+				global.ores.filters[unit] = nil
+			end
+		end
+	end--]]
 end
 
 script.on_event(defines.events.on_resource_depleted, function(event)
