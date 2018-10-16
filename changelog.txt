@@ -1,0 +1,11 @@
+---------------------------------------------------------------------------------------------------
+Version: 1.0.164
+Date: Oct 15 2018
+	- Fixed circuit input wires persisting after a washer is removed
+---------------------------------------------------------------------------------------------------
+Version: 1.0.160
+Date: Oct 10 2018
+	- Added config for ore washing water consumption
+	- Ore washer now has a circuit input to allow dynamically changing recipes
+	- Completely new recipes for ore washer, including BobMod integration
+---------------------------------------------------------------------------------------------------

@@ -103,6 +103,8 @@ local function onEntityRemoved(event)
 	if entity.name == "ore-washer" then
 		local entry = global.ores.washers[entity.unit_number]
 		if entry then
+			entry.connection.disconnect_neighbour(defines.wire_type.red)
+			entry.connection.disconnect_neighbour(defines.wire_type.green)
 			entry.connection.destroy()
 			global.ores.washers[entity.unit_number] = nil
 		end
