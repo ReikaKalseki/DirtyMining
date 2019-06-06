@@ -7,7 +7,7 @@ data:extend({
     icon = "__DirtyMining__/graphics/icons/ore-washer.png",
 	icon_size = 32,
     flags = {"placeable-neutral", "placeable-player", "player-creation"},
-    minable = {hardness = 0.2, mining_time = 0.5, result = "ore-washer"},
+    minable = {mining_time = 0.5, result = "ore-washer"},
     max_health = 350,
     corpse = "big-remnants",
     dying_explosion = "medium-explosion",
@@ -105,7 +105,7 @@ data:extend({
     {
       type = "electric",
       usage_priority = "secondary-input",
-      emissions = 0.08
+      emissions_per_minute = 307.2
     },
     energy_usage = "80kW",
     ingredient_count = 2,
@@ -123,7 +123,7 @@ data:extend({
     name = "ore-washer",
     icon = "__DirtyMining__/graphics/icons/ore-washer.png",
 	icon_size = 32,
-    flags = { "goes-to-quickbar" },
+    flags = {  },
     subgroup = "production-machine",
     order = "f[ore-washer]",
     place_result = "ore-washer",

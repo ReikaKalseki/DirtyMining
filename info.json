@@ -5,7 +5,7 @@
   "author": "Reika",
   "contact": "",
   "homepage": "",
-  "factorio_version" : "0.16",
+  "factorio_version" : "0.17",
   "description": "Allows for you to mark ore fields for more in-depth extraction, at the cost of requiring additional processing.",
-  "dependencies": ["base >= 0.16.0"]
+  "dependencies": ["base", "DragonIndustries"]
 }

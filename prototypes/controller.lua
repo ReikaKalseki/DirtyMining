@@ -1,3 +1,5 @@
+require("__DragonIndustries__.cloning")
+
 local function createCircuitSprite()
 	local ret = {
         filename = "__DirtyMining__/graphics/entity/connection.png",
@@ -36,62 +38,11 @@ local function createCircuitConnections()
 	return ret
 end
 
+local control = createFixedSignalAnchor("washer-control")
+control.item_slot_count = 0
+
 data:extend({
-  {
-    type = "constant-combinator",
-    name = "washer-control",
-    icon = "__base__/graphics/icons/constant-combinator.png",
-	icon_size = 32,
-    flags = {"placeable-neutral", "player-creation", "not-on-map", "placeable-off-grid", "not-blueprintable", "not-deconstructable"},
-	order = "z",
-	max_health = 100,
-	destructible = false,
-	--selectable_in_game = false,
-	
-	--collision_mask = {},
-
-    --collision_box = {{-0.35, -0.35}, {0.35, 0.35}},
-    selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
-
-    item_slot_count = 0,
-
-    sprites = {
-      north = createCircuitSprite(),
-      west = createCircuitSprite(),
-      east = createCircuitSprite(),
-      south = createCircuitSprite(),
-    },
-
-    activity_led_sprites = {
-	  north = createCircuitActivitySprite(),
-      west = createCircuitActivitySprite(),
-      east = createCircuitActivitySprite(),
-      south = createCircuitActivitySprite(),
-    },
-
-    activity_led_light =
-    {
-      intensity = 0.8,
-      size = 1,
-    },
-
-    activity_led_light_offsets =
-    {
-      {-0.296875, -0.078125},
-      {-0.296875, -0.078125},
-      {-0.296875, -0.078125},
-      {-0.296875, -0.078125},
-    },
-
-    circuit_wire_connection_points = {
-      createCircuitConnections(),
-      createCircuitConnections(),
-      createCircuitConnections(),
-      createCircuitConnections(),
-    },
-
-    circuit_wire_max_distance = 7.5
-  }
+    control
 })
 
 --[[
