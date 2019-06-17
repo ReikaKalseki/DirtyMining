@@ -103,7 +103,7 @@ local function createDirtyOre(base)
 	local ore = table.deepcopy(base)
 	ore.name = dirtyname
 	ore.icon = nil
-	ore.icons = {{icon=getOreBaseIcon(base)}, {icon="__DirtyMining__/graphics/icons/dirty_overlay.png"}}
+	ore.icons = {{icon=getOreBaseIcon(base)}, {icon_size = 32, icon="__DirtyMining__/graphics/icons/dirty_overlay.png"}}
 	ore.localised_name = {"dirty-ore.suffix", {"entity-name." .. base.name}}
 	--ore.localised_name = {"entity-name." .. base.name} --same visual name
 	ore.minable.mining_time = ore.minable.mining_time/Config.dirtyOreFactor
@@ -129,7 +129,7 @@ local function createDirtyOreItem(name)
 	
 	local item = table.deepcopy(base)
 	item.name = dirtyname
-	item.icons = {{icon=getOreBaseIcon(base)}, {icon="__DirtyMining__/graphics/icons/dirty_overlay.png"}}
+	item.icons = {{icon=getOreBaseIcon(base)}, {icon_size = 32, icon="__DirtyMining__/graphics/icons/dirty_overlay.png"}}
 	item.subgroup = "raw-material"
 	item.localised_name = {"dirty-ore.prefix", {"item-name." .. name}}
 	item.fuel_value = nil
