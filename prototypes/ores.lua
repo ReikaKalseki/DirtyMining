@@ -81,6 +81,20 @@ for name,assembler in pairs(data.raw["assembling-machine"]) do
 	end
 end
 
+local function getOreBaseIconSize(base)
+	if base.icon_size and base.icon_size > 0 then
+		return base.icon_size
+	end
+	if base.icons then
+		for _,ico in pairs(base.icons) do
+			if ico and ico.icon_size and ico.icon_size > 0 then
+				return ico.icon_size
+			end
+		end
+	end
+	return 32
+end
+
 local function getOreBaseIcon(base)
 	if base.icon and string.len(base.icon) > 0 then
 		return base.icon
@@ -103,7 +117,7 @@ local function createDirtyOre(base)
 	local ore = table.deepcopy(base)
 	ore.name = dirtyname
 	ore.icon = nil
-	ore.icons = {{icon=getOreBaseIcon(base)}, {icon_size = 32, icon="__DirtyMining__/graphics/icons/dirty_overlay.png"}}
+	ore.icons = {{icon=getOreBaseIcon(base), icon_size = getOreBaseIconSize(base)}, {icon_size = 32, icon="__DirtyMining__/graphics/icons/dirty_overlay.png"}}
 	ore.localised_name = {"dirty-ore.suffix", {"entity-name." .. base.name}}
 	--ore.localised_name = {"entity-name." .. base.name} --same visual name
 	ore.minable.mining_time = ore.minable.mining_time/Config.dirtyOreFactor
@@ -129,7 +143,7 @@ local function createDirtyOreItem(name)
 	
 	local item = table.deepcopy(base)
 	item.name = dirtyname
-	item.icons = {{icon=getOreBaseIcon(base)}, {icon_size = 32, icon="__DirtyMining__/graphics/icons/dirty_overlay.png"}}
+	item.icons = {{icon=getOreBaseIcon(base), icon_size = getOreBaseIconSize(base)}, {icon_size = 32, icon="__DirtyMining__/graphics/icons/dirty_overlay.png"}}
 	item.subgroup = "raw-material"
 	item.localised_name = {"dirty-ore.prefix", {"item-name." .. name}}
 	item.fuel_value = nil
