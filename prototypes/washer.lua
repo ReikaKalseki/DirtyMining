@@ -105,7 +105,7 @@ data:extend({
     {
       type = "electric",
       usage_priority = "secondary-input",
-      emissions_per_minute = 307.2
+      emissions_per_minute = 30 --equal to one boiler
     },
     energy_usage = "80kW",
     ingredient_count = 2,

@@ -117,6 +117,7 @@ local function createDirtyOre(base)
 	local ore = table.deepcopy(base)
 	ore.name = dirtyname
 	ore.icon = nil
+	ore.icon_mipmaps = 0
 	ore.icons = {{icon=getOreBaseIcon(base), icon_size = getOreBaseIconSize(base)}, {icon_size = 32, icon="__DirtyMining__/graphics/icons/dirty_overlay.png"}}
 	ore.localised_name = {"dirty-ore.suffix", {"entity-name." .. base.name}}
 	--ore.localised_name = {"entity-name." .. base.name} --same visual name
@@ -143,6 +144,7 @@ local function createDirtyOreItem(name)
 	
 	local item = table.deepcopy(base)
 	item.name = dirtyname
+	item.icon_mipmaps = 0
 	item.icons = {{icon=getOreBaseIcon(base), icon_size = getOreBaseIconSize(base)}, {icon_size = 32, icon="__DirtyMining__/graphics/icons/dirty_overlay.png"}}
 	item.subgroup = "raw-material"
 	item.localised_name = {"dirty-ore.prefix", {"item-name." .. name}}
@@ -152,6 +154,12 @@ local function createDirtyOreItem(name)
 	item.fuel_top_speed_multiplier = nil
 	item.fuel_emissions_multiplier = nil
 	item.fuel_glow_color = nil
+	if item.pictures then
+		for i,pic in ipairs(item.pictures) do
+			local orig = table.deepcopy(pic)
+			item.pictures[i] = {layers = {orig, {size = 32, filename = "__DirtyMining__/graphics/icons/dirty_overlay.png", scale = 0.5}}}
+		end
+	end
 	
 	local f = 1+multiplyConstant/5
 	local out = {{name=name, amount=1*multiplyConstant}, {name="pebbles", amount=1, probability = math.min(1, 0.2*Config.trashYield*f)}, {name="stone", amount=1, probability = math.min(1, 0.005*Config.trashYield*f)}, {name="twig", amount=1, probability = math.min(1, 0.02*Config.trashYield*f)}}
@@ -172,7 +180,7 @@ local function createDirtyOreItem(name)
 		enabled = "false",
 		energy_required = time,
 		icon = getOreBaseIcon(base),
-		icon_size = 32,
+		icon_size = getOreBaseIconSize(base),
 		subgroup = "raw-material",
 		category = "ore-cleaning",
 		localised_name = {"dirty-ore.recipe-name", {"item-name." .. base.name}},
