@@ -1,4 +1,31 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.18.1
+Date: Mar 27 2021
+	- Update to 1.1
+---------------------------------------------------------------------------------------------------
+Version: 1.18.1
+Date: Jun 29 2020
+	- Rebalanced pollution levels for 0.17
+	- Further improved modded ore handling
+	- Added missing locale
+---------------------------------------------------------------------------------------------------
+Version: 1.18.1
+Date: May 29 2020
+	- Update to 0.18
+---------------------------------------------------------------------------------------------------
+Version: 1.17.15
+Date: Jul 1 2019
+	- Improved icon size handling for modded ores
+---------------------------------------------------------------------------------------------------
+Version: 1.17.12
+Date: Jun 17 2019
+	- Added missing icon sizes
+---------------------------------------------------------------------------------------------------
+Version: 1.17.1
+Date: Mar 23 2019
+	- Update to 0.17
+	- Moved shared code to Dragon Industries
+---------------------------------------------------------------------------------------------------
 Version: 1.0.164
 Date: Oct 15 2018
 	- Fixed circuit input wires persisting after a washer is removed
@@ -8,4 +35,27 @@ Date: Oct 10 2018
 	- Added config for ore washing water consumption
 	- Ore washer now has a circuit input to allow dynamically changing recipes
 	- Completely new recipes for ore washer, including BobMod integration
+---------------------------------------------------------------------------------------------------
+Version: 1.0.128
+Date: Aug 24 2018
+	- Removed additional fuel properties from dirty ore versions
+---------------------------------------------------------------------------------------------------
+Version: 1.0.64
+Date: Jan 4 2018
+	- Ore cleaning recipes are now technology-gated
+	- Removed additional fuel properties from dirty ore versions
+---------------------------------------------------------------------------------------------------
+Version: 1.0.60
+Date: Dec 23 2017
+	- Update to 0.16
+	- Fixed issues with dirty markers being left behind
+	- Changed detritus drop rates and conversion ratios
+	- Increased washer speed and pollution
+	- Removed fuel value of dirty ore versions
+	- Improved mod compatibility
+	- Fixed ore washing being shown as an intermediate recipe step
+---------------------------------------------------------------------------------------------------
+Version: 1.0.36
+Date: Aug 3 2017
+	- Creation
 ---------------------------------------------------------------------------------------------------
