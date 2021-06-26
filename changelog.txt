@@ -1,11 +1,11 @@
 ---------------------------------------------------------------------------------------------------
-Version: 1.18.1
+Version: 1.102.1
 Date: Mar 27 2021
 	- Update to 1.1
 ---------------------------------------------------------------------------------------------------
-Version: 1.18.1
+Version: 1.18.10
 Date: Jun 29 2020
-	- Rebalanced pollution levels for 0.17
+	- Rebalanced pollution levels for 0.17 values
 	- Further improved modded ore handling
 	- Added missing locale
 ---------------------------------------------------------------------------------------------------
@@ -21,10 +21,13 @@ Version: 1.17.12
 Date: Jun 17 2019
 	- Added missing icon sizes
 ---------------------------------------------------------------------------------------------------
+Version: 1.17.6
+Date: Jun 6 2019
+	- Moved shared code to Dragon Industries
+---------------------------------------------------------------------------------------------------
 Version: 1.17.1
 Date: Mar 23 2019
 	- Update to 0.17
-	- Moved shared code to Dragon Industries
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.164
 Date: Oct 15 2018
@@ -48,14 +51,18 @@ Date: Jan 4 2018
 Version: 1.0.60
 Date: Dec 23 2017
 	- Update to 0.16
+---------------------------------------------------------------------------------------------------
+Version: 1.0.36
+Date: Aug 23 2017
 	- Fixed issues with dirty markers being left behind
 	- Changed detritus drop rates and conversion ratios
 	- Increased washer speed and pollution
-	- Removed fuel value of dirty ore versions
 	- Improved mod compatibility
 	- Fixed ore washing being shown as an intermediate recipe step
+	- Removed fuel value of dirty ore versions
 ---------------------------------------------------------------------------------------------------
-Version: 1.0.36
-Date: Aug 3 2017
+Version: 1.0.0
+Game: 0.15
+Date: Aug 2 2017
 	- Creation
 ---------------------------------------------------------------------------------------------------
