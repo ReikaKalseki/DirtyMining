@@ -20,6 +20,10 @@ data:extend({
 			type = "unlock-recipe",
 			recipe = "ore-washer"
 		  },
+		  {
+			type = "unlock-recipe",
+			recipe = "ore-type-signal"
+		  },
 		},
 		unit =
 		{

@@ -93,8 +93,14 @@ local function onEntityCreated(event)
 		local conn = entity.surface.create_entity{name = "washer-control", position = {entity.position.x-1, entity.position.y+1}, force = entity.force}
 		conn.operable = false
 		global.ores.washers[entity.unit_number] = {entity = entity, connection = conn}
-	elseif entity.name == "dirty-ore-signal-filter" then
-		global.ores.filters[entity.unit_number] = {entity = entity, type = "input"}
+	elseif entity.name == "ore-type-signal" then
+		local input = entity.surface.create_entity{name = "ore-type-signal-in", position = {entity.position.x-0.67, entity.position.y}, force = entity.force}
+		input.operable = false
+		local output1 = entity.surface.create_entity{name = "ore-type-signal-out1", position = {entity.position.x+0.67, entity.position.y-0.67}, force = entity.force}
+		output1.operable = false
+		local output2 = entity.surface.create_entity{name = "ore-type-signal-out2", position = {entity.position.x+0.67, entity.position.y+0.67}, force = entity.force}
+		output2.operable = false
+		global.ores.filters[entity.unit_number] = {entity = entity, input = input, output1 = output1, output2 = output2}
 	end
 end
 
@@ -108,8 +114,34 @@ local function onEntityRemoved(event)
 			entry.connection.destroy()
 			global.ores.washers[entity.unit_number] = nil
 		end
-	elseif entity.name == "dirty-ore-signal-filter" then
+	elseif entity.name == "ore-type-signal" then
+		local entry = global.ores.filters[entity.unit_number]
+		if entry then
+			if entry.input and entry.input.valid then
+				entry.input.disconnect_neighbour(defines.wire_type.red)
+				entry.input.disconnect_neighbour(defines.wire_type.green)
+				entry.input.destroy()
+			end
+			if entry.output1 and entry.output1.valid then
+				entry.output1.disconnect_neighbour(defines.wire_type.red)
+				entry.output1.disconnect_neighbour(defines.wire_type.green)
+				entry.output1.destroy()
+			end
+			if entry.output2 and entry.output2.valid then
+				entry.output2.disconnect_neighbour(defines.wire_type.red)
+				entry.output2.disconnect_neighbour(defines.wire_type.green)
+				entry.output2.destroy()
+			end
+		end
 		global.ores.filters[entity.unit_number] = nil
+	end
+end
+
+local function setValue(combinator, item)
+	if combinator and combinator.valid then
+		local params = {}
+		table.insert(params, {index = 1, signal = {type = "item", name = item}, count = 1})
+		combinator.get_control_behavior().parameters = params
 	end
 end
 
@@ -147,29 +179,24 @@ local function onTick(event)
 				global.ores.washers[unit] = nil
 			end
 		end
-	end--[[
+	end
 	if event.tick%30 == 0 then
 		for unit,entry in pairs(global.ores.filters) do
-			if entry.entity.valid then
-				local network = entry.connection.get_circuit_network(defines.wire_type.red)
-				if not network then network = entry.connection.get_circuit_network(defines.wire_type.green, defines.circuit_connector_id.combinator_input) end
+			if entry.input and entry.input.valid then
+				local network = entry.input.get_circuit_network(defines.wire_type.red)
+				if not network then network = entry.input.get_circuit_network(defines.wire_type.green, defines.circuit_connector_id.combinator_input) end
 				if network then
 					local signals = network.signals
 					if signals and #signals > 0 then
 						for _,signal in pairs(signals) do
 							if signal.count > 0 and signal.signal.type == "item" then
 								local item = signal.signal.name
-								if string.find(item, "dirty-ore", 1, true) then
-									local base = string.sub(item, string.len("dirty-ore")+2)
-									local name = "ore-cleaning-" .. base
-									--game.print(name)
-									local recipe = entry.entity.force.recipes[name]
-									--game.print(recipe ~= nil)
-									if recipe then
-										local items = entry.entity.set_recipe(recipe)
-										assert(not items or #items == 0)
-										break
-									end
+								local isDirty = string.find(item, "dirty-ore", 1, true) ~= nil
+								local other = isDirty and string.sub(item, string.len("dirty-ore")+2) or ("dirty-ore-" .. item)
+								--game.print(item .. " > " .. other .. " [" .. (isDirty and "dirty" or "clean") .. "]")
+								if game.item_prototypes[other] then
+									setValue(entry.output1, isDirty and other or item)
+									setValue(entry.output2, isDirty and item or other)
 								end
 							end
 						end
@@ -179,7 +206,7 @@ local function onTick(event)
 				global.ores.filters[unit] = nil
 			end
 		end
-	end--]]
+	end
 end
 
 script.on_event(defines.events.on_resource_depleted, function(event)
