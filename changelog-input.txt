@@ -1,4 +1,8 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.148.1
+Date: Oct 31 2022
+	- Added "ore type signal driver", which detects a dirty or clean ore signal and outputs both corresponding signals, to control filters or other automation
+---------------------------------------------------------------------------------------------------
 Version: 1.102.1
 Date: Mar 27 2021
 	- Update to 1.1
